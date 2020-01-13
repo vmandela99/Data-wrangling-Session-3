@@ -1,0 +1,39 @@
+---
+title: "Session 3"
+author: "Victor Mandela"
+date: "January 13, 2020"
+output:
+  html_document: default
+  word_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r include=FALSE}
+library(tidyverse)
+
+mobile <- read_csv("https://raw.githubusercontent.com/vmandela99/Class-assignment-12th-july-2019/master/mobilemoney_data.csv")
+
+skimr::skim(mobile)
+```
+The data has 28 variables and agent trust has 1051 missing values. Highest grade has 256 missing values. 
+
+
+```{r echo=FALSE}
+#how many account types are there
+mobile  %>% count(account_type)%>% mutate(account_type = fct_reorder(account_type,n)) %>% ggplot(aes(x = account_type, y = n)) + geom_col(fill = "blue")+coord_flip()
+```
+## Account types
+
+There are 7 accounts in the survey. Most people had mobile money, 825 had mobile accounts to be specific.
+
+```{r echo=FALSE}
+mobile %>% count(district)  %>% ggplot(aes(x = district, y = n)) + geom_col()
+```
+
+
+```{r echo=FALSE}
+mobile %>% filter(district == "District_A") %>% count( account_type) %>% mutate(percent = n/sum(n)*100) %>% ggplot(aes(x = account_type, y = n)) + geom_col()
+```
+
+From the analysis, 18.2% of the people have sacco accounts.
